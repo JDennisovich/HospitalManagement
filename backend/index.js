@@ -27,7 +27,12 @@ db.on("error", (err) => {
 db.once("open", () => console.log("connected to MongoDB"));
 
 // Routes
-// Patients
+const doctorRoute = require("./routes/doctorRoute");
+app.use("/api/v1/doctors", doctorRoute);
+
+const admissionRoute = require("./routes/admissionRoute");
+app.use("/api/v1/admissions", doctorRoute);
+
 const patientRoute = require("./routes/patientRoute");
 app.use("/api/v1/patients", patientRoute);
 
@@ -41,13 +46,3 @@ app.listen(portNumber, () => {
 
   console.log("new changee 4");
 });
-
-// 1. Araneta
-// 2. Ong
-// 3. Carandang
-// 4. Gallardo
-// 5. Estacio
-// 6. Quiroz
-// 7. Manalo
-// 8. Lopez (code)
-// 9. Espinoza (code)
