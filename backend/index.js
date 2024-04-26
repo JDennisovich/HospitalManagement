@@ -31,7 +31,7 @@ const doctorRoute = require("./routes/doctorRoute");
 app.use("/api/v1/doctors", doctorRoute);
 
 const admissionRoute = require("./routes/admissionRoute");
-app.use("/api/v1/admissions", doctorRoute);
+app.use("/api/v1/admissions", admissionRoute);
 
 const patientRoute = require("./routes/patientRoute");
 app.use("/api/v1/patients", patientRoute);

@@ -35,15 +35,20 @@ module.exports.createDoctor = (req, res) => {
 };
 
 module.exports.deleteDoctor = (req, res) => {
-  const doctorID = req.params.doctorID;
-  console.log(doctorID);
-
-  const update = { active: false};
-
-  Doctor.findByIdAndUpdate(doctorID, update, { new: true })
-    .then((doctor) => res.send(doctor))
-    .catch((error) => res.send(error));
-};
+    const doctorID = req.params.doctorID;
+    console.log(doctorID);
+  
+    // Using findByIdAndDelete to remove the doctor document from the database
+    Doctor.findByIdAndDelete(doctorID)
+      .then(doctor => {
+        if (!doctor) {
+          return res.status(404).send({ message: 'Doctor not found' });
+        }
+        res.send({ message: 'Doctor deleted successfully', doctor });
+      })
+      .catch(error => res.status(500).send(error));
+  };
+  
 
 module.exports.updateDoctor = (req, res) => {
   const { lastName, firstName, speciality, active } = req.body;

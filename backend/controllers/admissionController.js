@@ -37,11 +37,20 @@ module.exports.deleteAdmission = (req, res) => {
   const admissionID = req.params.admissionID;
   console.log(admissionID);
 
-  const update = { active: false, confined: false };
-
-  Admission.findByIdAndUpdate(admissionID, update, { new: true })
-    .then((admission) => res.send(admission))
-    .catch((error) => res.send(error));
+  // Using findByIdAndDelete to remove the admission document from the database
+  Admission.findByIdAndDelete(admissionID)
+    .then(admission => {
+      if (!admission) {
+        // If no admission is found, send a 404 response
+        return res.status(404).send({ message: 'Admission not found' });
+      }
+      // Send a success message along with the deleted admission document
+      res.send({ message: 'Admission deleted successfully', admission });
+    })
+    .catch(error => {
+      // Handle any errors during the operation
+      res.status(500).send(error);
+    });
 };
 
 module.exports.updateAdmission = (req, res) => {
