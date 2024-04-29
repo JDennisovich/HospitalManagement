@@ -28,7 +28,7 @@ module.exports.createDoctor = (req, res) => {
 
   try {
     const savedDoctor = newDoctor.save();
-    res.status(201).json({ "new patient": newDoctor });
+    res.status(201).json({ "new Doctor": newDoctor });
   } catch (error) {
     res.status(500).json({ error: error.message || "Internal Server Error" });
   }
@@ -71,6 +71,25 @@ module.exports.updateDoctor = (req, res) => {
       res.status(200).json(updatedDoctor);
     })
 
+    .catch((error) => {
+      res.status(500).json({ error: error.message || "Internal server error" });
+    });
+};
+
+module.exports.getDoctorByName = (req, res) => {
+  const doctorName = req.query.name;
+
+  if (!doctorName) {
+    return res.status(400).json({ error: "Doctor name parameter is required" });
+  }
+  
+  Doctor.findOne({ $or: [{ lastName: doctorName }, {firstName: doctorName }] })
+    .then((doctor) => {
+      if (!doctor) {
+        return res.status(404).json({ error: "Doctor not found" });
+      }
+      res.status(200).json(doctor);
+    })
     .catch((error) => {
       res.status(500).json({ error: error.message || "Internal server error" });
     });

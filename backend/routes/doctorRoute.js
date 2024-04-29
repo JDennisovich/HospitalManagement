@@ -9,6 +9,7 @@ router.get("/", doctorController.doctors);
 // api/v1/patients/661cd3a0e28300c6a3444b46
 router.get("/:id", doctorController.doctor);
 
+router.get("/doctors/byName", doctorController.getDoctorByName);
 //create
 router.post("/create", doctorController.createDoctor);
 
